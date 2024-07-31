@@ -12,3 +12,8 @@ after migration finished write this one
 update-database
 
 And the database will be create automaticly in your sql server
+
+Than Run application and use it
+
+
+Thank you
