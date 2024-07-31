@@ -1,0 +1,44 @@
+﻿@model TechHrms.WebApp.Models.Employees.RegisterEmployeeFormModel
+@{
+    ViewData["Title"] = "Register Employee";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" action="/Employees/RegisterEmployee">
+    <label for="Email">Email:</label>
+    <input asp-for="Email" placeholder="Email" />
+    <br />
+    <br />
+
+    <label for="txtPassword">Password:</label>
+    <input type="password" asp-for="Password" placeholder="Password" />
+    <br />
+    <br />
+
+    <label for="FirstName">First Name</label>
+    <input asp-for="FirstName" placeholder="First Name" />
+    <br />
+    <br />
+
+    <label for="LastName">Last Name</label>
+    <input asp-for="LastName" placeholder="Last Name" />
+    <br />
+    <br />
+
+    <label for="Qualification">Qualification</label>
+    <input asp-for="Qualification" placeholder="Qualification" />
+    <br />
+    <br />
+
+    <label for="Skill">Skill</label>
+    <input asp-for="Skill" placeholder="Skill" />
+    <br />
+    <br />
+
+    <label for="WorkExperience">WorkExperience</label>
+    <input asp-for="WorkExperience" placeholder="WorkExperience" />
+    <br />
+    <br />
+
+    <button type="submit">Submit</button>
+</form>

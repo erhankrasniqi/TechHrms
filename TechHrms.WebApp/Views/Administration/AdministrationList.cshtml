@@ -1,0 +1,18 @@
+﻿@model ListViewModel<TechHrms.WebApp.Models.Administration.AdministrationViewModel>
+@{
+    ViewData["Title"] = "Administration List";
+}
+<h1>@ViewData["Title"]</h1>
+
+@foreach (TechHrms.WebApp.Models.Administration.AdministrationViewModel administration in Model.Items)
+{
+    <div>
+        Position: @administration.Position
+        <br />
+        <a asp-controller="Administration" asp-action="AdministrationDetail" asp-route-id="@administration.Id">View Details</a>
+        <br />
+        ---------------------------------
+        <br />
+        <br />
+    </div>
+}

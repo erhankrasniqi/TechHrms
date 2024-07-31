@@ -1,0 +1,26 @@
+﻿@model TechHrms.WebApp.Models.Administration.ChangeAdministrationInfoModel
+@{
+    ViewData["Title"] = "Change administration Info";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" action="/Administration/ChangeAdministrationInfo">
+    <label for="Salary">Salary</label>
+    <input asp-for="Salary" placeholder="Salary" />
+    <br />
+    <br />
+
+    <label for="Notes">Notes</label>
+    <input asp-for="Notes" placeholder="Notes" />
+    <br />
+    <br /> 
+    
+    <label for="Position">Position</label>
+    <input asp-for="Position" placeholder="Position" />
+    <br />
+    <br />
+
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+
+    <button type="submit">Submit</button>
+</form>

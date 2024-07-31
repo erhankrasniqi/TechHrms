@@ -1,0 +1,30 @@
+﻿@model TechHrms.WebApp.Models.Employees.EmployeeViewModel
+@{
+    ViewData["Title"] = "Employee Detail";
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (Model != null)
+{
+    <div>
+        Id: @Model.Id
+        <br />
+        Email: @Model.Email
+        <br />
+        First Name: @Model.FirstName
+        <br />
+        Last Name: @Model.LastName
+        <br />
+        <br />
+        <a asp-controller="Employees" asp-action="ChangeEmployeeInfo" asp-route-id="@Model.Id">Change Employee Info</a>
+        <br />
+        <a asp-controller="Employees" asp-action="DeleteEmployeeInfo" asp-route-id="@Model.Id">Delete Employee Info</a>
+        <br />
+        <br />
+        ---------------------------------
+    </div>
+}
+else
+{
+    <div>Employee not found!</div>
+}

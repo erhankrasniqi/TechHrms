@@ -1,0 +1,54 @@
+﻿@model TechHrms.WebApp.Models.Administration.RegisterAdministrationFormModel
+@{
+    ViewData["Title"] = "Register Administration";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" action="/Administration/RegisterAdministration">
+    <label for="EmployeeId">EmployeeId:</label>
+    <input asp-for="EmployeeId" placeholder="EmployeeId" />
+    <br />
+    <br />
+
+    <label for="ApplicationDate">ApplicationDate:</label>
+    <input  asp-for="ApplicationDate" placeholder="ApplicationDate" />
+    <br />
+    <br />
+
+    <label for="InterviewDate">InterviewDate</label>
+    <input asp-for="InterviewDate" placeholder="InterviewDate" />
+    <br />
+    <br />
+
+    <label for="RecruiterName">RecruiterName</label>
+    <input asp-for="RecruiterName" placeholder="RecruiterName" />
+    <br />
+    <br />
+
+    <label for="HiringStatus">HiringStatus</label>
+    <input asp-for="HiringStatus" placeholder="HiringStatus" />
+    <br />
+    <br />
+
+    <label for="Notes">Notes</label>
+    <input asp-for="Notes" placeholder="Notes" />
+    <br />
+    <br />
+
+    <label for="Salary">Salary</label>
+    <input asp-for="Salary" placeholder="Salary" />
+    <br />
+    <br /> 
+    
+    <label for="Position">Position</label>
+    <input asp-for="Position" placeholder="Position" />
+    <br />
+    <br />
+    
+    <label for="Department">Department</label>
+    <input asp-for="Department" placeholder="Department" />
+    <br />
+    <br />
+
+    <button type="submit">Submit</button>
+</form>

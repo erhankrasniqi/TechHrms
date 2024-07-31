@@ -1,0 +1,13 @@
+﻿@model TechHrms.WebApp.Models.Employees.DeleteEmployeePersonalInfoFromModel
+@{
+    ViewData["Title"] = "Deleye Employee Info";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" action="/Employees/DeleteEmployeeInfo">
+     
+
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+
+    <button type="submit">Submit</button>
+</form>

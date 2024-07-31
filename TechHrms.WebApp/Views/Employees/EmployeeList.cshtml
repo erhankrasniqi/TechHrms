@@ -1,0 +1,18 @@
+﻿@model ListViewModel<TechHrms.WebApp.Models.Employees.EmployeeViewModel>
+@{
+    ViewData["Title"] = "Employees List";
+}
+<h1>@ViewData["Title"]</h1>
+
+@foreach (TechHrms.WebApp.Models.Employees.EmployeeViewModel employee in Model.Items)
+{
+    <div>
+        Email: @employee.Email
+        <br />
+        <a asp-controller="Employees" asp-action="EmployeeDetail" asp-route-id="@employee.Id">View Details</a>
+        <br />
+        ---------------------------------
+        <br />
+        <br />
+    </div>
+}

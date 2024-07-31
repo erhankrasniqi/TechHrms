@@ -1,0 +1,30 @@
+﻿@model TechHrms.WebApp.Models.Administration.AdministrationViewModel
+@{
+    ViewData["Title"] = "Administration Detail";
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (Model != null)
+{
+    <div>
+        Id: @Model.Id
+        <br />
+        Position: @Model.Position
+        <br />
+        RecruiterName: @Model.RecruiterName
+        <br />
+        Position: @Model.Position
+        <br />
+        <br />
+        <a asp-controller="Administration" asp-action="ChangeAdministrationInfo" asp-route-id="@Model.Id">Change Administrtation Info</a>
+        <br />
+        <a asp-controller="Administration" asp-action="DeleteAdministrationInfo" asp-route-id="@Model.Id">Delete Administrtation Info</a>
+        <br />
+        <br />
+        ---------------------------------
+    </div>
+}
+else
+{
+    <div>Employee not found!</div>
+}
