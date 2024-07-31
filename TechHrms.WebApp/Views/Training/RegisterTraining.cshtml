@@ -1,0 +1,33 @@
+﻿@model TechHrms.WebApp.Models.Training.RegisterTrainingFormModel
+@{
+    ViewData["Title"] = "Register Training";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" action="/Training/RegisterTraining">
+   
+
+    <label for="Title">Title:</label>
+    <input type="Title" asp-for="Title" placeholder="Title" />
+    <br />
+    <br />
+
+    <label for="Description">Description Name</label>
+    <input asp-for="Description" placeholder="Description Name" />
+    <br />
+    <br />
+
+    <label for="StartDate">StartDate</label>
+    <input asp-for="StartDate" placeholder="StartDate" />
+    <br />
+    <br />
+
+    <label for="EndDate">EndDate</label>
+    <input asp-for="EndDate" placeholder="EndDate" />
+    <br />
+    <br />
+
+     
+
+    <button type="submit">Submit</button>
+</form>

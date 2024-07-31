@@ -22,6 +22,8 @@ namespace TechHrms.WebApp
             serviceCollection.AddScoped<IEmployeeRepository, EmployeeRepository>();
             serviceCollection.AddScoped<IAdministrationRepository, AdministrationRepository>();
             serviceCollection.AddScoped<IProjectManagmentRepository, ProjectManagmentRepository>();
+            serviceCollection.AddScoped<ITrainingRepository, TrainingRepository>();
+            serviceCollection.AddScoped<IHRRaportRepository, HRRaportRepository>();
 
             serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
                 typeof(CreateEmployeeCommandHandler).Assembly,

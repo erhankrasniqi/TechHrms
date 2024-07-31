@@ -216,7 +216,7 @@ namespace TechHrms.WebApp.Controllers
             DeleteAdministrationConfirmationViewModel viewModel = new()
             {
                 Success = true,
-                EmployeeId = response.Id
+                AdministrationID = response.Id
             };
 
             return View("DeleteAdministrationConfirmation", viewModel);

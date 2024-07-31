@@ -5,12 +5,16 @@ using TechHrms.WebApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.InitializeApp(builder.Configuration);
 
+builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

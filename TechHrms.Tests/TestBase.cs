@@ -21,6 +21,9 @@ namespace TechHrms.Tests
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IAdministrationRepository, AdministrationRepository>();
+            services.AddScoped<ITrainingRepository, TrainingRepository>();
+            services.AddScoped<IProjectManagmentRepository, ProjectManagmentRepository>();
+            services.AddScoped<IHRRaportRepository, HRRaportRepository>();
             services.AddMediatR((cfg) => cfg.RegisterServicesFromAssemblies(typeof(CreateEmployeeCommandHandler).Assembly));
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
