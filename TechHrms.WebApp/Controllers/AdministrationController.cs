@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,11 +22,13 @@ namespace TechHrms.WebApp.Controllers
 
         private readonly ILogger<AdministrationController> _logger;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public AdministrationController(ILogger<AdministrationController> logger, IMediator mediator)
+        public AdministrationController(ILogger<AdministrationController> logger, IMediator mediator, IMapper mapper)
         {
             _logger = logger;
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -44,20 +48,8 @@ namespace TechHrms.WebApp.Controllers
             //if (!ModelState.IsValid)
             //{
             //    throw new InvalidEmailException("Invalid email address");
-            //}
-
-            CreateAdminstrationCommand command = new()
-            {
-                EmployeeId = model.EmployeeId,
-                ApplicationDate = model.ApplicationDate,
-                InterviewDate = model.InterviewDate,
-                RecruiterName = model.RecruiterName,
-                HiringStatus = model.HiringStatus,
-                Notes = model.Notes,
-                Salary = model.Salary,
-                Position = model.Position,
-                Department = model.Department,
-            };
+            //} 
+            CreateAdminstrationCommand command = _mapper.Map<CreateAdminstrationCommand>(model);
 
             AdministrationResponse response = await _mediator.Send(command).ConfigureAwait(false);
 
@@ -77,20 +69,7 @@ namespace TechHrms.WebApp.Controllers
 
             if (result != null && result.Administrations != null && result.Administrations.Any())
             {
-                response.Items = result.Administrations.Select(x => new AdministrationViewModel
-                {
-                    Id = x.Id,
-                    EmployeeId = x.EmployeeId, 
-                    ApplicationDate = x.ApplicationDate,
-                    InterviewDate= x.InterviewDate,
-                    RecruiterName= x.RecruiterName,
-                    HiringStatus = x.HiringStatus,
-                    Notes = x.Notes,
-                    Salary = x.Salary,  
-                    Position = x.Position,  
-                    Department = x.Department
-                    
-                });
+                response.Items = _mapper.Map<List<AdministrationViewModel>>(result.Administrations);
             }
 
             return View("AdministrationList", response);
@@ -110,18 +89,7 @@ namespace TechHrms.WebApp.Controllers
 
                 if (result != null)
                 {
-                    response = new()
-                    {
-                        Id = result.Id,
-                        EmployeeId = result.EmployeeId,
-                        ApplicationDate = result.ApplicationDate,
-                        InterviewDate = result.InterviewDate,
-                        Notes= result.Notes,
-                        Salary= result.Salary,
-                        Position = result.Position,
-                        Department = result.Department
-
-                    };
+                    response = _mapper.Map<AdministrationViewModel>(result);
                 }
             }
 
@@ -143,13 +111,7 @@ namespace TechHrms.WebApp.Controllers
 
                 if (result != null)
                 {
-                    viewModel = new()
-                    {
-                        Id = result.Id,
-                        Salary = result.Salary,
-                        Position = result.Position,
-                        Notes = result.Notes,
-                    };
+                    viewModel = _mapper.Map<ChangeAdministrationInfoModel>(result);
                 }
             }
 
@@ -160,21 +122,17 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeAdministrationInfo([FromForm] ChangeAdministrationInfoModel model)
         {
-            ChangeAdmininstrationInfoCommand command = new()
-            {
-                Id = model.Id,
-                Salary = model.Salary,
-                Notes = model.Notes,
-                Position = model.Position,
-            };
+            if (!ModelState.IsValid)
+            { 
+                return View(model);
+            }
+
+            ChangeAdmininstrationInfoCommand command = _mapper.Map<ChangeAdmininstrationInfoCommand>(model);
 
             AdministrationResponse response = await _mediator.Send(command).ConfigureAwait(false);
 
-            AdminstrationConfirmationViewModel viewModel = new()
-            {
-                Success = true,
-                AdministrationID = response.Id
-            };
+            
+            AdminstrationConfirmationViewModel viewModel = _mapper.Map<AdminstrationConfirmationViewModel>(response);
 
             return View("ChangeAdministrationInfoConfirmation", viewModel);
         }
@@ -193,10 +151,7 @@ namespace TechHrms.WebApp.Controllers
 
                 if (result != null)
                 {
-                    viewModel = new()
-                    {
-                        Id = result.Id,
-                    };
+                    viewModel = _mapper.Map<DeleteAdministrationPersonalInfoFromModel>(result);
                 }
             }
 
@@ -206,18 +161,16 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAdministrationInfo([FromForm] DeleteAdministrationPersonalInfoFromModel model)
         {
-            DeleteAdministrationPersonalInfoCommand command = new()
-            {
-                Id = model.Id
-            };
+            if (!ModelState.IsValid)
+            { 
+                return View(model);
+            }
+ 
+            DeleteAdministrationPersonalInfoCommand command = _mapper.Map<DeleteAdministrationPersonalInfoCommand>(model);
 
             AdministrationResponse response = await _mediator.Send(command).ConfigureAwait(false);
-
-            DeleteAdministrationConfirmationViewModel viewModel = new()
-            {
-                Success = true,
-                AdministrationID = response.Id
-            };
+ 
+            DeleteAdministrationConfirmationViewModel viewModel = _mapper.Map<DeleteAdministrationConfirmationViewModel>(response);
 
             return View("DeleteAdministrationConfirmation", viewModel);
         }

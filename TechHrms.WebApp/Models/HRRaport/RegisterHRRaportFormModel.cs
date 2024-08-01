@@ -15,7 +15,7 @@ namespace TechHrms.WebApp.Models.HRRaport
         public DateTime? GeneratedOn { get; set; }
 
         [Display(Name = "GeneratedBy")]
-        public string GeneratedBy { get; set; }
+        public DateTime? GeneratedBy { get; set; }
 
         [Display(Name = "FilePath")]
         public string FilePath { get; set; }

@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using TechHrms.Application.Commands.AdministrationCommands;
+using TechHrms.Application.Commands.HRRaportCommands;
 using TechHrms.Application.Response;
 using TechHrms.WebApp.Models;
 using TechHrms.WebApp.Models.ProjectManagment;
@@ -14,11 +16,13 @@ namespace TechHrms.WebApp.Controllers
     {
         private readonly ILogger<ProjectManagmentController> _logger;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public ProjectManagmentController(ILogger<ProjectManagmentController> logger, IMediator mediator)
+        public ProjectManagmentController(ILogger<ProjectManagmentController> logger, IMediator mediator, IMapper mapper)
         {
             _logger = logger;
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -41,18 +45,8 @@ namespace TechHrms.WebApp.Controllers
             //{
             //    throw new InvalidEmailException("Invalid email address");
             //}
-
-            CreatePMCommand command = new()
-            {
-                EmployeeId = model.EmployeeId,
-                ProjectName = model.ProjectName,
-                Description = model.Description,
-                ClientName = model.ClientName,
-                StartDate = model.StartDate,
-                EndDate = model.EndDate,
-                Status = model.Status
-
-            };
+             
+            CreatePMCommand command = _mapper.Map<CreatePMCommand>(model);
 
             PMResponse response = await _mediator.Send(command).ConfigureAwait(false);
 

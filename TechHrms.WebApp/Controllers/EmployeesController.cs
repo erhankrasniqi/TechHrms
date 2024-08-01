@@ -1,9 +1,12 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using TechHrms.Application.Commands.AdministrationCommands;
 using TechHrms.Application.Commands.EmployeeCommands;
 using TechHrms.Application.Queries.EmployeeQueries;
 using TechHrms.Application.Response;
@@ -16,11 +19,13 @@ namespace TechHrms.WebApp.Controllers
     {
         private readonly ILogger<EmployeesController> _logger;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public EmployeesController(ILogger<EmployeesController> logger, IMediator mediator)
+        public EmployeesController(ILogger<EmployeesController> logger, IMediator mediator, IMapper mapper)
         {
             _logger = logger;
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -40,16 +45,8 @@ namespace TechHrms.WebApp.Controllers
             //    throw new InvalidEmailException("Invalid email address");
             //}
 
-            CreateEmployeeCommand command = new()
-            {
-                Email = model.Email,
-                Password = model.Password,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Qualification = model.Qualification,
-                Skill = model.Skill,
-                WorkExperience = model.WorkExperience,
-            };
+            
+            CreateEmployeeCommand command = _mapper.Map<CreateEmployeeCommand>(model);
 
             EmployeeResponse response = await _mediator.Send(command).ConfigureAwait(false);
 
@@ -69,13 +66,7 @@ namespace TechHrms.WebApp.Controllers
 
             if (result != null && result.Employees != null && result.Employees.Any())
             {
-                response.Items = result.Employees.Select(x => new EmployeeViewModel
-                {
-                    Id = x.Id,
-                    Email = x.Email,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName
-                });
+                response.Items = _mapper.Map<List<EmployeeViewModel>>(result.Employees);
             }
 
             return View("EmployeeList", response);
@@ -95,13 +86,7 @@ namespace TechHrms.WebApp.Controllers
 
                 if (result != null)
                 {
-                    response = new()
-                    {
-                        Id = result.Id,
-                        Email = result.Email,
-                        FirstName = result.FirstName,
-                        LastName = result.LastName
-                    };
+                    response = _mapper.Map<EmployeeViewModel>(result);
                 }
             }
 
@@ -122,12 +107,7 @@ namespace TechHrms.WebApp.Controllers
 
                 if (result != null)
                 {
-                    viewModel = new()
-                    {
-                        Id = result.Id,
-                        FirstName = result.FirstName,
-                        LastName = result.LastName
-                    };
+                    viewModel = _mapper.Map<ChangeEmployeeInfoFormModel>(result);
                 }
             }
 
@@ -138,12 +118,7 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeEmployeeInfo([FromForm] ChangeEmployeeInfoFormModel model)
         {
-            ChangeEmployeePersonalInfoCommand command = new()
-            {
-                Id = model.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName
-            };
+            ChangeEmployeePersonalInfoCommand command = _mapper.Map<ChangeEmployeePersonalInfoCommand>(model);
 
             EmployeeResponse response = await _mediator.Send(command).ConfigureAwait(false);
 
@@ -171,10 +146,7 @@ namespace TechHrms.WebApp.Controllers
 
                 if (result != null)
                 {
-                    viewModel = new()
-                    {
-                        Id = result.Id,
-                    };
+                    viewModel = _mapper.Map<DeleteEmployeePersonalInfoFromModel>(result);
                 }
             }
 
@@ -184,10 +156,7 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteEmployeeInfo([FromForm] DeleteEmployeePersonalInfoFromModel model)
         {
-            DeleteEmployeePersonalInfoCommand command = new()
-            {
-                Id = model.Id
-            };
+            DeleteEmployeePersonalInfoCommand command = _mapper.Map<DeleteEmployeePersonalInfoCommand>(model);
 
             EmployeeResponse response = await _mediator.Send(command).ConfigureAwait(false);
 

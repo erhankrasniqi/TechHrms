@@ -9,6 +9,8 @@ using TechHrms.WebApp.Models.ProjectManagment;
 using TechHrms.WebApp.Models;
 using TechHrms.WebApp.Models.Training;
 using TechHrms.Application.Commands.TrainingCommand;
+using AutoMapper;
+using TechHrms.Application.Commands.HRRaportCommands;
 
 namespace TechHrms.WebApp.Controllers
 {
@@ -21,11 +23,13 @@ namespace TechHrms.WebApp.Controllers
 
         private readonly ILogger<TrainingController> _logger;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public TrainingController(ILogger<TrainingController> logger, IMediator mediator)
+        public TrainingController(ILogger<TrainingController> logger, IMediator mediator, IMapper mapper)
         {
             _logger = logger;
             _mediator = mediator;
+            _mapper = mapper;
         }
           
 
@@ -43,15 +47,9 @@ namespace TechHrms.WebApp.Controllers
             //{
             //    throw new InvalidEmailException("Invalid email address");
             //}
+             
 
-            CreateTrainingCommand command = new()
-            {
-                Title = model.Title, 
-                Description = model.Description, 
-                StartDate = model.StartDate,
-                EndDate = model.EndDate, 
-
-            };
+            CreateTrainingCommand command = _mapper.Map<CreateTrainingCommand>(model);
 
             TrainingResponse response = await _mediator.Send(command).ConfigureAwait(false);
 

@@ -9,6 +9,7 @@ using TechHrms.WebApp.Models.Training;
 using TechHrms.WebApp.Models;
 using TechHrms.WebApp.Models.HRRaport;
 using TechHrms.Application.Commands.HRRaportCommands;
+using AutoMapper;
 
 namespace TechHrms.WebApp.Controllers
 {
@@ -21,11 +22,13 @@ namespace TechHrms.WebApp.Controllers
 
         private readonly ILogger<HRRaportController> _logger;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public HRRaportController(ILogger<HRRaportController> logger, IMediator mediator)
+        public HRRaportController(ILogger<HRRaportController> logger, IMediator mediator, IMapper mapper)
         {
             _logger = logger;
             _mediator = mediator;
+            _mapper = mapper;
         }
 
 
@@ -42,17 +45,8 @@ namespace TechHrms.WebApp.Controllers
             //if (!ModelState.IsValid)
             //{
             //    throw new InvalidEmailException("Invalid email address");
-            //}
-
-            CreateHRRaportCommand command = new()
-            {
-                Title = model.Title,
-                Description = model.Description,
-                GeneratedBy = model.GeneratedOn,
-                GeneratedOn = model.GeneratedOn,
-                FilePath = model.FilePath,
-
-            };
+            //} 
+            CreateHRRaportCommand command = _mapper.Map<CreateHRRaportCommand>(model);
 
             HRRaportResponse response = await _mediator.Send(command).ConfigureAwait(false);
 
