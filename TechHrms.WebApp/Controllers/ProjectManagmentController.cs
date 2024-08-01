@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using TechHrms.Application.Commands.AdministrationCommands;
 using TechHrms.Application.Commands.HRRaportCommands;
+using TechHrms.Application.Exceptions;
 using TechHrms.Application.Response;
 using TechHrms.WebApp.Models;
 using TechHrms.WebApp.Models.ProjectManagment;
@@ -41,11 +42,11 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterProjectManager([FromForm] RegisterProjectManagerFormModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    throw new InvalidEmailException("Invalid email address");
-            //}
-             
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidProjectNameException("Invalid project name");
+            }
+
             CreatePMCommand command = _mapper.Map<CreatePMCommand>(model);
 
             PMResponse response = await _mediator.Send(command).ConfigureAwait(false);

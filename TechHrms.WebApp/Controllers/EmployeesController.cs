@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TechHrms.Application.Commands.AdministrationCommands;
 using TechHrms.Application.Commands.EmployeeCommands;
+using TechHrms.Application.Exceptions;
 using TechHrms.Application.Queries.EmployeeQueries;
 using TechHrms.Application.Response;
 using TechHrms.WebApp.Models;
@@ -40,12 +41,12 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterEmployee([FromForm] RegisterEmployeeFormModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    throw new InvalidEmailException("Invalid email address");
-            //}
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidEmailException("Invalid email address");
+            }
 
-            
+
             CreateEmployeeCommand command = _mapper.Map<CreateEmployeeCommand>(model);
 
             EmployeeResponse response = await _mediator.Send(command).ConfigureAwait(false);

@@ -11,6 +11,7 @@ using TechHrms.WebApp.Models.Training;
 using TechHrms.Application.Commands.TrainingCommand;
 using AutoMapper;
 using TechHrms.Application.Commands.HRRaportCommands;
+using TechHrms.Application.Exceptions;
 
 namespace TechHrms.WebApp.Controllers
 {
@@ -43,11 +44,11 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterTraining([FromForm] RegisterTrainingFormModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    throw new InvalidEmailException("Invalid email address");
-            //}
-             
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidDescriptionException("Invalid description");
+            }
+
 
             CreateTrainingCommand command = _mapper.Map<CreateTrainingCommand>(model);
 

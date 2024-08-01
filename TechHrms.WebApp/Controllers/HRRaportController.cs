@@ -10,6 +10,7 @@ using TechHrms.WebApp.Models;
 using TechHrms.WebApp.Models.HRRaport;
 using TechHrms.Application.Commands.HRRaportCommands;
 using AutoMapper;
+using TechHrms.Application.Exceptions;
 
 namespace TechHrms.WebApp.Controllers
 {
@@ -42,10 +43,11 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterHRRaport([FromForm] RegisterHRRaportFormModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    throw new InvalidEmailException("Invalid email address");
-            //} 
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidDescriptionException("Invalid description");
+            }
+
             CreateHRRaportCommand command = _mapper.Map<CreateHRRaportCommand>(model);
 
             HRRaportResponse response = await _mediator.Send(command).ConfigureAwait(false);

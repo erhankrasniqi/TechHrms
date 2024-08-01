@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TechHrms.Application.Commands.AdministrationCommands;
 using TechHrms.Application.Commands.EmployeeCommands;
+using TechHrms.Application.Exceptions;
 using TechHrms.Application.Queries.AdministrationQueries;
 using TechHrms.Application.Queries.EmployeeQueries;
 using TechHrms.Application.Response;
@@ -45,10 +46,11 @@ namespace TechHrms.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAdministration([FromForm] RegisterAdministrationFormModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    throw new InvalidEmailException("Invalid email address");
-            //} 
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidEmailException("Invalid email address");
+            }
+
             CreateAdminstrationCommand command = _mapper.Map<CreateAdminstrationCommand>(model);
 
             AdministrationResponse response = await _mediator.Send(command).ConfigureAwait(false);
